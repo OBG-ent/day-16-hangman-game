@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangman — The Classic Word Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>🎯 HANGMAN</h1>
+    <p class="tagline">Guess the word before the figure is complete</p>
+  </header>
+
+  <!-- Scoreboard: score, current streak, best streak (best persists via localStorage) -->
+  <div class="scoreboard">
+    <div class="score-item"><span class="label">Score</span><span class="value" id="score">0</span></div>
+    <div class="score-item"><span class="label">Streak</span><span class="value" id="streak">0</span></div>
+    <div class="score-item"><span class="label">Best</span><span class="value" id="best">0</span></div>
+  </div>
+
+  <!-- Game settings — changing either starts a fresh word -->
+  <div class="settings">
+    <label>Category
+      <select id="categorySel">
+        <option value="animals">🐾 Animals</option>
+        <option value="food">🍕 Food</option>
+        <option value="tech">💻 Tech</option>
+        <option value="sports">⚽ Sports</option>
+      </select>
+    </label>
+    <label>Difficulty
+      <select id="difficultySel">
+        <option value="easy">Easy (3–5 letters)</option>
+        <option value="medium" selected>Medium (6–8 letters)</option>
+        <option value="hard">Hard (9+ letters)</option>
+      </select>
+    </label>
+  </div>
+
+  <main class="game">
+    <!-- Left: the hangman drawing (gallows always shown, body parts fade in) -->
+    <div class="figure-card">
+      <svg id="hangman" viewBox="0 0 200 240" aria-label="Hangman figure">
+        <!-- gallows -->
+        <line x1="30" y1="220" x2="110" y2="220" stroke="#5b6b94" stroke-width="8" stroke-linecap="round"/>
+        <line x1="60" y1="220" x2="60" y2="20" stroke="#5b6b94" stroke-width="8" stroke-linecap="round"/>
+        <line x1="60" y1="20" x2="150" y2="20" stroke="#5b6b94" stroke-width="8" stroke-linecap="round"/>
+        <line x1="150" y1="20" x2="150" y2="50" stroke="#5b6b94" stroke-width="6" stroke-linecap="round"/>
+        <!-- body parts: appear one per miss, in this order -->
+        <circle id="head" cx="150" cy="75" r="25" class="part"/>
+        <line id="body" x1="150" y1="100" x2="150" y2="160" class="part"/>
+        <line id="armL" x1="150" y1="115" x2="120" y2="140" class="part"/>
+        <line id="armR" x1="150" y1="115" x2="180" y2="140" class="part"/>
+        <line id="legL" x1="150" y1="160" x2="125" y2="195" class="part"/>
+        <line id="legR" x1="150" y1="160" x2="175" y2="195" class="part"/>
+      </svg>
+      <p id="message" class="message">Loading…</p>
+    </div>
+
+    <!-- Right: word blanks, keyboard, actions -->
+    <div class="play-card">
+      <div id="word" class="word"></div>
+
+      <div id="keyboard" class="keyboard"></div>
+
+      <div class="actions">
+        <button id="hintBtn" class="btn secondary">💡 Hint (−1 life)</button>
+        <button id="newBtn" class="btn">🔄 New Word</button>
+      </div>
+      <p class="hint-line">Tip: type on your keyboard, or tap the on-screen keys.</p>
+    </div>
+  </main>
+
+  <!-- Win / lose overlay -->
+  <div id="overlay" class="overlay">
+    <div class="overlay-box">
+      <h2 id="overlayTitle"></h2>
+      <p id="overlayText"></p>
+      <button id="playAgainBtn" class="btn">▶ Play Again</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Made with ❤️ on day 16 of my daily coding journey · <a href="README.md">how it works</a></p>
+  </footer>
+
+  <script src="words.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
